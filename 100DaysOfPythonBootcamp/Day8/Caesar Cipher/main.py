@@ -39,9 +39,11 @@ def cipherFunc(messageStr, shiftAmount, mode):
         shiftAmount *= -1
 
     for messageChar in messageStr:
+        
         #non-alpha char check
         if(not messageChar.isalpha()):
             encodedMessage += messageChar
+            continue
 
         #I should really look up the built-in Py methods... didn't know alphabet.index(messageChar) would've been much easier
         for (index, alphabetChar) in enumerate(alphabet):
@@ -55,6 +57,8 @@ def cipherFunc(messageStr, shiftAmount, mode):
 
                 # print(f"New: {newCharIndex}") #DEBUG
                 encodedMessage += alphabet[newCharIndex]
+                continue
+
     return encodedMessage
 
 def main(mode):
