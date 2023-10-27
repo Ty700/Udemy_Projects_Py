@@ -15,7 +15,7 @@ def getMode():
 
     while(mode != "encode" and mode != "decode"):
         print("Invalid option.")
-        mode = str(input("Type 'encode' to encypt, or 'decrypt' to decode: ")).lower()
+        mode = str(input("Type 'encode' to encypt, or 'decode' to decode: ")).lower()
 
     if(mode == "encode"):
         return 1
@@ -52,14 +52,14 @@ def cipherFunc(messageStr, shiftAmount, mode):
                 #handles index out of alphabet range
                 if(newCharIndex > 25 or newCharIndex < -25):
                     newCharIndex %= 26
+
                 # print(f"New: {newCharIndex}") #DEBUG
                 encodedMessage += alphabet[newCharIndex]
     return encodedMessage
 
 def main(mode):
-
     newMessage = cipherFunc(getMessage(mode), getShift(), mode)
-    print(f"Encoded message: {newMessage}")
+    print(f"New Message: {newMessage}")
 
 if __name__ == "__main__":
     main(getMode())
