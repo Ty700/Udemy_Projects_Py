@@ -17,3 +17,5 @@ for height in student_heights:
 
 print("Avg height of the list: {0}".format(round(total_heights/numStudents)))
 
+
+

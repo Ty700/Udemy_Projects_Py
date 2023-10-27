@@ -4,9 +4,11 @@
 #   - This program will not work if you are not running some sort of *inx OS that has a built-in dictionary
 #   - Still don't understand why strings are immuatable unlike C++ D:
 #   - Project took a lot longer due to getting used to that fact
-#   - Still don't know how to import custom files like #include "main.h" in C++
+#   - Still don't know how to import custom files like #include "main.h" in C++ - Nvm, I do now
+#   - TODO: Complete "validateUserGuess" function - Note: Since this isn't completed, user can guess anything and thus can input guesses that don't make sense
 
 import random
+from stages import *
 
 #Generates a random word from built-in dict on linux OS
 def randomWordGenerator():
@@ -19,6 +21,18 @@ def randomWordGenerator():
     word_list[selected_word_index] = removeNonCharCharacters(removeExtraS(word_list[selected_word_index]))
 
     return word_list[selected_word_index]
+
+#prints the either partially deciphered or fully encrypted word
+def print_word(encryptedWord):
+    for i in range(len(encryptedWord)):
+        print(encryptedWord[i], end = " ")
+    print()
+
+def printAllGuesses(guessesArray):
+    print("You've guessed: ")
+    for char in guessesArray:
+        print(char, end = " ")
+    print()
 
 #Removes the extra "s" that apostrophes make. Ex: Bill's -> Bill'. Another function removes the apostrophe
 #Doesn't work for words like " Bills' " or if there is more than one word such as "Bill's Shop"
@@ -33,7 +47,6 @@ def removeExtraS(word):
     # print("Word after removeExtraS(): {}".format(modifiedWord)) #DEBUG
     return modifiedWord
 
-
 #remove any non-alphabet characters not including spaces
 def removeNonCharCharacters(word):
     modifiedWord = ""
@@ -44,12 +57,16 @@ def removeNonCharCharacters(word):
     # print("Word after removeNonCharCharacters(): {}".format(modifiedWord)) #DEBUG
     return modifiedWord
 
-
+#makes an array filled with _ that is the len of the word user has to guess
 def encrypt(word):
-    encryptedWord = ""
+    encryptedWord = []
     for index in range(len(word)):
-        encryptedWord += "_ "
+        encryptedWord.append("_")
     return encryptedWord
+
+# #checks to make sure the user guess is valid
+# def validateGuess(userGuess):
+    
 
 #returns the correctly guessed indicies
 def checkIfCharInWord(character, hiddenWord):
@@ -60,44 +77,73 @@ def checkIfCharInWord(character, hiddenWord):
     return correctIndices
 
 #replaces the _ with the correctly guessed letter
-def replaceHiddenChars(userGuess, wordToGuess, encryptedWord, correctIndices):
-    partialDecipherWord = encryptedWord
-    if(len(correctIndices) == 0):
-        return encryptedWord
-    else:
-        #ERROR HERE
-        for index in correctIndices:
-            pass
-        return partialDecipherWord
-                
-            
-    
-            
+def replaceHiddenChars(userGuess, correctIndicies, encryptedWord):
+    for index in correctIndicies:
+        encryptedWord[index] = userGuess
+    return encryptedWord
 
+#checks to see if there are any more "_" indicating the user still has not won
+def checkIfWon(encryptedWord):
+    for char in encryptedWord:
+        if(char == "_"):
+            return False
+    return True
+        
 def main():
     #generates word the user has to guess
-    wordToGuess = randomWordGenerator()
+    wordToGuess = randomWordGenerator().lower()
 
-    print(wordToGuess) #DEBUG
-    print(len(wordToGuess))#DEBUG
-#start of while loop
+    #will keep track of all the guesses in this array
+    allUserGuesses = []
+
+    #dont need to explain this do I?
+    livesLeft = 6
+
+    # print(wordToGuess) #DEBUG   
+    # print(len(wordToGuess))#DEBUG
+
     #creates a string of underscores that is equal to the size of wordToGuess
     encryptedWord = encrypt(wordToGuess)
 
-    #prints the encrypted word
-    print(encryptedWord)
+    #prints the encrypted word to start the game
+    print_word(encryptedWord)
 
-    #User guess
-    userGuess = str(input("Guess a character: "))
+    while(livesLeft):
+        #User guess
+        userGuess = input("Guess a character: ").lower()
 
-    #Checks to see if user guess is in the word - returns correct indicies
-    correctIndicies = checkIfCharInWord(userGuess, wordToGuess)
+        #Validates the user guess to block out weird guesses
+        # userGuess = validateGuess(userGuess)
 
-    #replaces the correctly guessed indicies
-    encryptedWord = replaceHiddenChars(userGuess, wordToGuess, encryptedWord, correctIndicies)
+        allUserGuesses.append(userGuess)
 
-    print(encryptedWord)
+        #Checks to see if user guess is in the word - returns correct indicies
+        correctIndicies = checkIfCharInWord(userGuess, wordToGuess)
 
+        #if guess is not in wordToGuess
+        if(len(correctIndicies) == 0):
+            livesLeft -= 1
+
+        # replaces the correctly guessed indicies
+        encryptedWord = replaceHiddenChars(userGuess, correctIndicies, encryptedWord)
+
+        #prints hangman art
+        print(stages[livesLeft])
+
+        #prints the word
+        print_word(encryptedWord)
+
+        #reminds user what they've guessed
+        printAllGuesses(allUserGuesses)
+
+        #checks if the user has won
+        if(checkIfWon(encryptedWord)):
+            break
+    
+    if(livesLeft):
+        print("You've won!")
+    else:
+        print(f"You've done killed a man.\nThe word was: {wordToGuess}")
 
 if __name__ == "__main__":
     main()

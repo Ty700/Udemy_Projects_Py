@@ -1,11 +1,11 @@
 def fizzBuzz(firstNum, secondNum, rangeNum):
-    for num in range(0, (rangeNum + 1)):
+    for num in range(1, (rangeNum + 1)):
         print("{0}: ".format(num), end= " ")
 
         if(num % firstNum == 0):
             print("Fizz", end = "")
         if(num % secondNum == 0):
-            print("Buzz")
+            print("Buzz", end = "")
         print()
         
 def main():
