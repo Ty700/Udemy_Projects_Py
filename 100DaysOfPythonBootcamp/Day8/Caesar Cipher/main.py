@@ -29,9 +29,6 @@ def getShift():
         print("Invalid option.")
         shiftAmount = input("Enter in the shift amount: ")
 
-    while(int(shiftAmount) <= 0):
-        print("Invalid option.")
-        shiftAmount = input("Enter in the shift amount: ")
     return int(shiftAmount)
 
 def cipherFunc(messageStr, shiftAmount, mode):
