@@ -39,6 +39,7 @@ def encodeMessage(messageStr, shiftAmount):
         if(not messageChar.isalpha()):
             encodedMessage += messageChar
 
+        #I should really look up the built-in Py methods... didn't know alphabet.index(messageChar) would've been much easier
         for (index, alphabetChar) in enumerate(alphabet):
             # print(f"{index}: {alphabetChar}") #DEBUG
             if(messageChar == alphabetChar):
@@ -59,6 +60,8 @@ def decodeMessage(encodedMessageStr, shiftAmount):
         if(not messageChar.isalpha()):
             decodedMessage += messageChar
 
+        #I should really look up the built-in Py methods... didn't know alphabet.index(messageChar) would've been much easier
+
         for (index, alphabetChar) in enumerate(alphabet):
             # print(f"{index}: {alphabetChar}") #DEBUG
             if(messageChar == alphabetChar):
@@ -76,5 +79,6 @@ def main(mode):
     else: #deccode
         newMessage = decodeMessage(getMessage(mode), getShift())
         print(f"Decoded message: {newMessage}")
+
 if __name__ == "__main__":
     main(getMode())
