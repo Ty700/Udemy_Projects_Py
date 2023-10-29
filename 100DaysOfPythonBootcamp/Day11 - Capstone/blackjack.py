@@ -6,8 +6,8 @@ from cards import *
 #deals the <amount> of randomly selected cards to a hand - doesn't know which.
 def dealHand(amount):
     newHand = []
-    i = 0
-    for i in range(amount):
+    for _ in range(amount):
+        #newHand.append(random.choice(card)) would've done the same thing...
         newHand.append(card[random.randint(0, (len(card) - 1))])
     return newHand
 
