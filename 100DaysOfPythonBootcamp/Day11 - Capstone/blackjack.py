@@ -23,8 +23,7 @@ def hit(currentHand, person):
     if(person == "player".lower()):
         if(input("Type:\n'h': hit\n's': stand\n") == 'h'):
             while(True):
-                newCard = card[random.randint(0, (len(card) - 1))]
-                currentHand.append(newCard)
+                currentHand.append(card[random.randint(0, (len(card) - 1))])
 
                 printHandAndTotal(currentHand, "player")
                 
@@ -34,8 +33,7 @@ def hit(currentHand, person):
                 if(input("Type:\n'h': hit\n's': stand\n") == 's'):
                     return currentHand
     else: #dealer
-        newCard = card[random.randint(0, (len(card) - 1))]
-        currentHand.append(newCard)
+        currentHand.append(card[random.randint(0, (len(card) - 1))])
 
         while(calHandTotal(currentHand) <= 16):
             hit(currentHand, "dealer")
