@@ -1,24 +1,7 @@
 from logo import logo
 from clear import clear
 import random
-
-card = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
-
-cardValues = {
-    'A': 11,
-    '2': 2,
-    '3': 3,
-    '4': 4,
-    '5': 5,
-    '6': 6,
-    '7': 7,
-    '8': 8,
-    '9': 9,
-    '10': 10,
-    'J': 10,
-    'Q': 10,
-    'K': 10,
-}
+from cards import *
 
 def dealHand(amount):
     newHand = []
@@ -69,6 +52,22 @@ def calHandTotal(hand):
                 total -= 10
     return total
 
+def determinePlayerWin(playerHandTotal, dealerHandTotal):
+    #temp print - will return true/false if win/lose later
+    #that will activate a function to give/take chips
+    if(playerHandTotal > 21):
+        print("You've lost")
+    elif(dealerHandTotal > 21):
+        print("You've won")
+    elif(playerHandTotal > dealerHandTotal):
+        #give chips
+        print("You've won")
+    elif(playerHandTotal == dealerHandTotal):
+        print("You've pushed")
+    else:
+        print("You've lost")
+
+
 def playGame():
     playerHand = dealHand(2)
     printHandAndTotal(playerHand, "player")
@@ -76,14 +75,23 @@ def playGame():
     dealerHand = dealHand(1)
     hit(dealerHand, "dealer")
     printHandAndTotal(dealerHand, "dealer")
+    determinePlayerWin(calHandTotal(playerHand), calHandTotal(dealerHand))
+
+def keepPlaying():
+    if(input("Would you like to keep going? Type 'yes' or 'no'\n") == 'no'):
+        return False
+    else:
+        clear()
+        return True
+
 
 def main():
     clear()
-    #Give chips
-    playGame()
-    #determine winner
-    #ask for bets or to leave
+    print(logo)
+    while(True):
+        playGame()
+        if(not keepPlaying()):
+            break
 
 if __name__ == "__main__":
-    print(logo)
     main()
