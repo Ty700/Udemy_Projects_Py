@@ -1,4 +1,5 @@
 from logo import logo
+from clear import clear
 import random
 
 card = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
@@ -19,24 +20,34 @@ cardValues = {
     'K': 10,
 }
 
-def dealPlayerCard():
-    card1 = card[random.randint(0, (len(card) - 1))]
-    card2 = card[random.randint(0, (len(card) - 1))]
-    return [card1, card2]
+def dealHand(amount):
+    newHand = []
+    i = 0
+    for i in range(amount):
+        newHand.append(card[random.randint(0, (len(card) - 1))])
+    return newHand
 
-def dealDealerCard():
-    card1 = card[random.randint(0, (len(card) - 1))]
-    return [card1]
+def hit(currentHand, person):
+    if(person == "player".lower()):
+        if(input("Type:\n'h': hit\n's': stand\n") == 'h'):
+            while(True):
+                newCard = card[random.randint(0, (len(card) - 1))]
+                currentHand.append(newCard)
 
-def hit(playerHand):
-    while(True):
+                printHandAndTotal(currentHand, "player")
+                
+                if(calHandTotal(currentHand) >= 21):
+                    return currentHand
+
+                if(input("Type:\n'h': hit\n's': stand\n") == 's'):
+                    return currentHand
+    else: #dealer
         newCard = card[random.randint(0, (len(card) - 1))]
-        playerHand.append(newCard)
+        currentHand.append(newCard)
 
-        printHandAndTotal(playerHand, "player")
-
-        if(input("Type:\n'h': hit\n's': stand\n") == 's'):
-            return playerHand
+        while(calHandTotal(currentHand) <= 16):
+            hit(currentHand, "dealer")
+        return currentHand
 
 def printHandAndTotal(hand, person):
     if(person.lower() == "player"):
@@ -50,27 +61,28 @@ def calHandTotal(hand):
     total = 0
     for card in hand:
         total += cardValues[str(card)]
+    
+    #Ace Check
+    if(total > 21):
+        for card in hand:
+            if cardValues[str(card)] == 11:
+                total -= 10
     return total
 
-def dealerHit(dealerHand):
-    newCard = card[random.randint(0, (len(card) - 1))]
-    dealerHand.append(newCard)
-
-    while(calHandTotal(dealerHand) <= 16):
-        dealerHit(dealerHand)
-
-    return dealerHand
+def playGame():
+    playerHand = dealHand(2)
+    printHandAndTotal(playerHand, "player")
+    hit(playerHand, "player")
+    dealerHand = dealHand(1)
+    hit(dealerHand, "dealer")
+    printHandAndTotal(dealerHand, "dealer")
 
 def main():
-    playerHand = dealPlayerCard()
-    printHandAndTotal(playerHand, "person")
-
-    if(input("Type:\n'h': hit\n's': stand\n") == 'h'):
-        hit(playerHand)
-
-    dealerHand = dealDealerCard()
-    dealerHit(dealerHand)
-    printHandAndTotal(dealerHand, "dealer")
+    clear()
+    #Give chips
+    playGame()
+    #determine winner
+    #ask for bets or to leave
 
 if __name__ == "__main__":
     print(logo)
