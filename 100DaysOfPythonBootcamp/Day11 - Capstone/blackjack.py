@@ -1,5 +1,5 @@
 from logo import logo
-from clear import clear
+from clear import *
 import random
 from cards import *
 

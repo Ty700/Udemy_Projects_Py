@@ -1,4 +1,7 @@
 import os
 
-clear = lambda: os.system('clear') #LINUX CLEAR
-#clear = lambda: os.system('cls') #WINDOWS CLEAR
+def clear():
+    for _ in range(50):
+        print()
+
+#clear = lambda: os.system('clear') #LINUX CLEAR
