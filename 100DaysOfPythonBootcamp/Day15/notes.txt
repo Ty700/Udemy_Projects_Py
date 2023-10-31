@@ -1,0 +1,4 @@
+Day was geared towards setting up and IDE as the first 1-14 days were through a web IDE.
+I used VSCode the entire time so I don't need this day.
+
+However, there is a "Coffee Machine" project that I think I'll do it if has some complexity.
