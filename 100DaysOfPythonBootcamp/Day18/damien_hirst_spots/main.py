@@ -33,10 +33,10 @@ def get_random_color_from_image(image_colors):
 
 
 def draw_dots(turtle, color_list):
-    y_pos = 0
+    y_pos = -225
     for row in range(10):
         #resets x
-        x_pos = -300
+        x_pos = -225
 
         #moves turtle to left side and up one row.
         turtle.penup()
@@ -63,6 +63,8 @@ def draw_dots(turtle, color_list):
 
 
 def main():
+    screen = t.Screen()
+    screen.setup(600,600)
     t.colormode(255)
     turt = t.Turtle()
     config_turtle(turt)
@@ -71,8 +73,6 @@ def main():
 
     draw_dots(turt, color_list)
     
-
+    screen.exitonclick()
 if __name__ == "__main__":
     main()
-    screen = t.Screen()
-    screen.exitonclick()
